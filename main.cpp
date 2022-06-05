@@ -1,180 +1,194 @@
-/******************************************************************************
-
-                              Online C++ Compiler.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <iostream>
 using namespace std;
-class Node
+class Array
 {
-public:
-	int data;
-	Node* left, * right;
+private :
+    int size;
+    int length;
+    int* items;
+public :
+    Array(int arrsize)
+    {
+        size = arrsize;
+        length = 0;
+        items = new int[arrsize];
+    }
+    void Fill()
+    {
+        int no_of_items;
+        cout << "How many items you want to fill ? \n";
+        cin >> no_of_items;
+        if (no_of_items > size)
+        {
+            cout << "You cannot exceed the array size \n";
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < no_of_items; i++)
+            {
+                cout << "Enter item no " << i << endl;
+                cin >> items[i];
+                length++;
 
-	Node(int value)
-	{
-		data = value;
-		left = right = NULL;
-	}
+            }
+        }
+      }
+    void Display()
+    {
+        cout << "Display Array content \n";
+        for (int i = 0; i < length; i++)
+        {
+            cout << items[i] << "\t";
+        }
+        cout << endl;
+    }
+    int getSize()
+    {
+        return size;
+    }
+    int getLength()
+    {
+        return length;
+    }
+
+    int Search(int key)
+    {
+        int index = -1;
+        for (int i = 0; i < length; i++)
+        {
+            if (items[i] == key)
+            {
+                index = i;
+                break;
+             }
+              return index;
+        }
+
+    }
+
+    void Append(int newitem)
+    {
+        if (length < size)
+        {
+            items[length] = newitem;
+            length++;
+        }
+        else
+            cout << "Array is full \n";
+    }
+
+    void Insert(int index, int newitem)
+    {
+        if (index >= 0 && index < size)
+        {
+            for (int i = length; i > index; i--)
+            {
+                items[i] = items[i - 1];
+            }
+            items[index] = newitem;
+            length++;
+        }
+        else
+        {
+            cout << " Error - Index out of Range \n";
+        }
+    }
+        void Delete(int index)
+    {
+        if (index >= 0 && index < size)
+        {
+            for (int i = index; i < length - 1; i++)
+                items[i] = items[i + 1];
+            length--;
+        }
+        else
+            cout << "Index out of Array Range \n";
+    }
+        void Enlarge(int newsize)
+    {
+        if (newsize <= size)
+        {
+            cout << "New size must be larger than current size \n";
+            return;
+        }
+        else
+        {
+            size = newsize;
+            int* old = items;
+            items = new int[newsize];
+            for (int i = 0; i < length; i++)
+            {
+                items[i] = old[i];
+            }
+            delete[ ]old;
+
+        }
+    }
+    void Merge(Array other)
+    {
+        int newsize = size + other.getSize();
+        size = newsize;
+        int* old = items;
+        items = new int[newsize];
+        int i;
+        for ( i = 0; i < length; i++)
+        {
+            items[i] = old[i];
+        }
+        delete[]old;
+        int j = i;
+        for (int i = 0; i < other.getLength(); i++)
+        {
+            items[j++] = other.items[i];
+            length++;
+        }
+
+    }
 };
-
-class BST
+int main()
 {
-public:
-	Node* root;
+    int index;
 
-	BST()
-	{
-		root = NULL;
-	}
-
-	Node* Insert(Node* r, int item)
-	{
-		if (r == NULL)
-		{
-			Node* newnode = new Node(item);
-			r = newnode;
-		}
-
-		else if (item < r->data)
-			r->left = Insert(r->left, item);
-		else
-			r->right = Insert(r->right, item);
-
-		return r;
-	}
-
-	void Insert(int item)
-	{
-		root = Insert(root, item);
-	}
-
-	void Preorder(Node* r) // root ->left->right
-	{
-		if (r == NULL)
-			return;
-		cout << r->data << "\t";
-		Preorder(r->left);
-		Preorder(r->right);
-	}
-
-	void Inorder(Node* r) // left->root -> right
-	{
-		if (r == NULL)
-			return;
-
-		Inorder(r->left);
-		cout << r->data << "\t";
-		Inorder(r->right);
-
-	}
-	void Postorder(Node*r)// Left/right/ root
-	{
-		if (r == NULL)
-			return;
-		Postorder(r->left);
-		Postorder(r->right);
-		cout << r->data << "\t";
-	
-
-	 }
-
-	Node* Search(Node* r, int ky) {
-		if (r == NULL)
-			return NULL;
-
-		else if (r->data == ky)
-			return r;
-
-		else if (ky < r->data)
-			return Search(r->left, ky);
-
-		else
-			return Search(r->right, ky);
-
-	}
-	bool Search(int ky) {
-		Node* re = Search(root, ky);
-		if (re == NULL)
-			return false;
-		else
-			return true;
-
-
-	}
-	Node* Findmin(Node* r) {
-		if (r == NULL)
-			return NULL;
-		else if (r->left == NULL)
-			return r;
-		else
-			return Findmin(r->left);
-
-	}
-	Node* Findmax(Node* r) {
-		if (r == NULL)
-			return NULL;
-		else if (r->right == NULL)
-			return r;
-		else
-			return Findmax(r->right);
-
-
-	}
-};
-
-
-int main() {
-	BST btt;
-	btt.Insert(25);
-
-	btt.Insert(90);
-
-	btt.Insert(15);
-
-	btt.Insert(50);
-
-	btt.Insert(12);
-
-	btt.Insert(8);
-
-	cout << "Display the Tree Contenet\n";
-
-	btt.Preorder(btt.root);
-
-	cout << " \n.............\n";
-
-	btt.Inorder(btt.root);
-	cout << " \n.............\n";
-	 
-	btt.Postorder(btt.root);
-
-	int ky;
-	cout << "Enter item to searh for\n";
-	cin >> ky;
-	if (btt.Search(ky))
-		cout << "found";
-	else
-		cout << "not found";
-
-	cout << " \n.............\n";
-	
-	cout << "Find Minimum \n";
-	Node *min = btt.Findmin(btt.root);
-	if (min == 0) 
-		cout << "No Items Exist";
-	else
-		cout << "Minimum is  " << min->data << "\n";
-
-	cout << "Find Maximum \n";
-	Node* max = btt.Findmax(btt.root);
-	if (max == 0)
-		cout << "No Items Exist \n";
-	else
-		cout << "Maximum is  " << max->data << "\n";
-	
-
+    cout << "Hello This is Array ADT demo\n";
+    int arraysize;
+    cout << "Enter the Array Size \n";
+    cin >> arraysize;
+    Array myarray(arraysize);
+    myarray.Fill();
+    cout << "Array size = " << myarray.getSize() <<"   while length = " << myarray.getLength() <<"\n";
+    myarray.Display();
+   cout << "Enter the value to search for \n";
+    int key;
+    cin >> key;
+    int index =   myarray.Search(key);
+    if (index == -1)
+        cout << "Item not found \n";
+    else
+        cout << "Item found @ position " << index << endl;
+    int newitem;
+   cout << "Enter new item to add to the array \n";
+    cin >> newitem;
+    myarray.Append(newitem);
+    myarray.Display();
+    int index;
+    cout << "Enter Index to delete its item \n";
+    cin >> index;
+    cin >> newitem;
+    myarray.Insert(index, newitem);
+    myarray.Delete(index);
+    myarray.Display();
+    cout << "Array size = " << myarray.getSize() << "   while length = " << myarray.getLength() << "\n";
+    int newsize;
+    cout << "Enter New Size\n";
+    cin >> newsize;
+    myarray.Enlarge(newsize);
+    cout << "Array size = " << myarray.getSize() << "   while length = " << myarray.getLength() << "\n";
+    myarray.Display();
+    cout << "New array other \n";
+    Array other(3);
+    other.Fill();
+    myarray.Merge(other);
+    cout << "Array size = " << myarray.getSize() << "   while length = " << myarray.getLength() << "\n";
+    myarray.Display();
 }
