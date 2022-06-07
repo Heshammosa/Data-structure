@@ -170,34 +170,35 @@ int main()
 	btree.Postorder(btree.root);
 	cout << "\n..............................................................................\n";*/
 
-	/*int key;
+	int key;
 	cout << " Enter item to search for \n";
 	cin >> key;
 	if (btree.Search(key))
 		cout << "Item Found \n";
 	else
-		cout << "Sorry , item not found \n";*/
+		cout << "Sorry , item not found \n";
 	
-	//cout << "Find Minimum \n";
-	//Node *min = btree.Findmin(btree.root);
-	//if (min == 0) // NULL = 0
-	//	cout << "No Items Exist";
-	//else
-	//	cout << "Minimum is  " << min->data << "\n";
+	cout << "Find Minimum \n";
+	Node *min = btree.Findmin(btree.root);
+	if (min == 0) // NULL = 0
+		cout << "No Items Exist";
+	else
+              	cout << "Minimum is  " << min->data << "\n";
 
-	//cout << "Find Maximum \n";
-	//Node* max = btree.Findmax(btree.root);
-	//if (max == 0)
-	//	cout << "No Items Exist \n";
-	//else
-	//	cout << "Maximum is  " << max->data << "\n";
-
+	 cout << "Find Maximum \n";
+	Node* max = btree.Findmax(btree.root);
+	if (max == 0)
+		cout << "No Items Exist \n";
+	else
+		cout << "Maximum is  " << max->data << "\n";
+         int del
 	cout << " \n Delete Items \n ";
-	Node *result = btree.Delete (btree.root , 12);
+	cin >> del;
+	Node *result = btree.Delete (btree.root , del);
 	cout << "\n preorder After Delete 12 \n ";
 	btree.Preorder(result);
 
-	result = btree.Delete(btree.root, 15);
+	result = btree.Delete(btree.root, del);
 	cout << "\n preorder After Delete 15 \n ";
 	btree.Preorder(result);
 
